@@ -20,6 +20,10 @@ def todict(obj, classkey="Klass"):
         for k in obj.keys():
             obj[k] = todict(obj[k], classkey)
         return obj
+    elif isinstance(obj, str) or isinstance(obj, bytes):
+        # must handle strings before __iter__ test, since they now have __iter__
+        # in Python3
+        return obj
     elif hasattr(obj, "__iter__"):
         return [todict(v, classkey) for v in obj]
     elif hasattr(obj, "__dict__"):
@@ -68,6 +72,9 @@ class WrapperPrinter:
                     res.append(item)
         self.file.write(json.dumps(res, sort_keys=True, indent=4))
         self.file.write("\n")
+
+    def __del__(self):
+        self.file.close()
 
     def print_group(self, list, name, function):
         if list:

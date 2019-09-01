@@ -21,6 +21,7 @@ VERSION_FILE = os.path.relpath(ctypesgen.version.VERSION_FILE, THIS_DIR)
 f = open("MANIFEST.in", "w")
 f.write("include {}\n".format(VERSION_FILE))
 f.write("graft ctypesgen\n")
+f.write("recursive-exclude ctypesgen .gitignore\n")
 f.close()
 
 try:
@@ -37,7 +38,7 @@ try:
         "ctypesgen can also output JSON, which can be used with Mork, "
         "which generates bindings for Lua, using the alien module (which "
         "binds libffi to Lua).",
-        url="https://github.com/olsonse/ctypesgen",
+        url="https://github.com/davidjamesca/ctypesgen",
         license="BSD License",
         packages=find_packages(),
         include_package_data=True,
